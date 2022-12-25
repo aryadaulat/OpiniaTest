@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   ImageBackground,
   TouchableOpacity,
-	TouchableHighlight,
+  TouchableHighlight,
   Image,
   Pressable,
   Dimensions,
@@ -17,6 +17,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {PPhome} from '../../assets';
 import {useNavigation} from '@react-navigation/native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -28,6 +29,34 @@ const HeadHomepage = () => {
   const hapusgambar = () => {
     setGambar('');
     setModalVisible(!modalVisible);
+  };
+  const ambilgambargalery = async () => {
+    let option = {
+      mediaType: 'photo',
+      quality: 1,
+      includeBase64: true,
+    };
+    const result = await launchImageLibrary(option);
+    if (result.didCancel === true) {
+      Alert.alert('ERROR', result.errorMessage);
+    } else {
+      setGambar(result.assets[0]);
+      setModalVisible(!modalVisible);
+    }
+  };
+  const ambilgambarcamera = async () => {
+    let option = {
+      mediaType: 'photo',
+      quality: 1,
+      includeBase64: true,
+    };
+    const result = await launchCamera(option);
+    if (result.didCancel === true) {
+      Alert.alert('ERROR', result.errorMessage);
+    } else {
+      setGambar(result.assets[0]);
+      setModalVisible(!modalVisible);
+    }
   };
   return (
     <SafeAreaView style={styles.Head}>
@@ -41,20 +70,24 @@ const HeadHomepage = () => {
         }}>
         <View style={styles.pagemodal}>
           <View style={styles.modalHead}>
-            <View style={styles.boxmodal}>
+            <TouchableOpacity
+              style={styles.boxmodal}
+              onPress={ambilgambarcamera}>
               <MaterialCommunityIcons name="camera" color="#FFFFFF" size={20} />
               <Text style={styles.textmodal}>Kamera</Text>
-            </View>
-            <View style={styles.boxmodal}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.boxmodal}
+              onPress={ambilgambargalery}>
               <AntDesign name="picture" color="#FFFFFF" size={20} />
               <Text style={styles.textmodal}>Galeri</Text>
-            </View>
+            </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.boxhapus} onPress={hapusgambar}>
             <Text style={styles.texthapus}>HAPUS GAMBAR BANNER</Text>
           </TouchableOpacity>
           <TouchableHighlight
-						underlayColor="#FFFFFF"
+            underlayColor="#FFFFFF"
             onPress={() => setModalVisible(!modalVisible)}
             style={styles.batal}>
             <Text style={styles.textbatal}>Batal</Text>
