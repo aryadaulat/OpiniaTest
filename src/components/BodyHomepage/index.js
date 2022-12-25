@@ -130,7 +130,7 @@ const BodyHomepage = () => {
       </View>
       <ScrollView>
         <View style={styles.status}>
-          <Text>Lengkapi Profil Anda 2/3</Text>
+          <Text style={styles.completeprofile}>Lengkapi Profil Anda 2/3</Text>
           <View style={styles.barstatus}>
             <Animated.View
               style={
@@ -202,6 +202,9 @@ const styles = StyleSheet.create({
   number: {
     color: '#EA6C00',
     marginRight: 5,
+  },
+  completeprofile: {
+    color: '#797979',
   },
   barstatus: {
     height: 5,
